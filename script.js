@@ -1,6 +1,6 @@
 console.log("ThachAI Frontend hoạt động!");
 
-// Gửi yêu cầu tới backend Flask để lấy câu trả lời
+// Gửi yêu cầu tới backend Flask để nhận câu trả lời
 async function getResponseFromBackend(message) {
   try {
     const response = await fetch("https://thamai-backend-chuan.onrender.com/chat", {
@@ -12,7 +12,7 @@ async function getResponseFromBackend(message) {
     });
 
     const data = await response.json();
-    return data.reply;
+    return data.response;  // ✅ Sửa đúng key ở đây
   } catch (error) {
     console.error("Lỗi khi gọi backend:", error);
     return "Xin lỗi, hệ thống đang gặp sự cố.";
@@ -23,3 +23,4 @@ async function getResponseFromBackend(message) {
 getResponseFromBackend("Xin chào!").then(reply => {
   console.log("Phản hồi từ backend:", reply);
 });
+
