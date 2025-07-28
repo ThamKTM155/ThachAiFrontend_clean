@@ -1,55 +1,35 @@
-console.log("✅ ThachAI Frontend hoạt động!");
+const chatBox = document.getElementById("chat-box");
+const userInput = document.getElementById("user-input");
+const sendButton = document.getElementById("send-button");
 
-// Gọi tới backend Flask để lấy câu trả lời từ AI
-async function getResponseFromBackend(message) {
-  try {
-    const response = await fetch("https://thamai-backend-clean-4.onrender.com/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: message }),
-    });
+// Thay bằng đúng địa chỉ backend Flask của anh
+const BACKEND_URL = "https://thamai-backend-clean-4.onrender.com/chat";
 
-    const data = await response.json();
-    return data.reply;
-  } catch (error) {
-    console.error("❌ Lỗi khi gọi backend:", error);
-    return "Xin lỗi, hệ thống đang gặp sự cố.";
-  }
-}
-
-// Hàm hiển thị tin nhắn lên khung chat
-function showMessage(message, sender) {
-  const chatBox = document.getElementById("chat-box");
-
-  const messageElement = document.createElement("div");
-  messageElement.classList.add("message", sender);
-  messageElement.innerText = message;
-
-  chatBox.appendChild(messageElement);
+function appendMessage(content, className) {
+  const messageDiv = document.createElement("div");
+  messageDiv.className = `message ${className}`;
+  messageDiv.textContent = content;
+  chatBox.appendChild(messageDiv);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Xử lý khi người dùng bấm nút gửi hoặc Enter
-const inputField = document.getElementById("user-input");
-const sendButton = document.getElementById("send-button");
+sendButton.addEventListener("click", async () => {
+  const message = userInput.value.trim();
+  if (message === "") return;
 
-sendButton.addEventListener("click", handleSend);
-inputField.addEventListener("keydown", function (e) {
-  if (e.key === "Enter") {
-    handleSend();
+  appendMessage(message, "user-message");
+  userInput.value = "";
+
+  try {
+    const response = await fetch(BACKEND_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message }),
+    });
+
+    const data = await response.json();
+    appendMessage(data.reply, "bot-message");
+  } catch (error) {
+    appendMessage("Lỗi kết nối đến máy chủ.", "bot-message");
   }
 });
-
-function handleSend() {
-  const userMessage = inputField.value.trim();
-  if (userMessage === "") return;
-
-  showMessage(userMessage, "user");
-  inputField.value = "";
-
-  getResponseFromBackend(userMessage).then((reply) => {
-    showMessage(reply, "assistant");
-  });
-}
