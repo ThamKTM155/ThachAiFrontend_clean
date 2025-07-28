@@ -3,7 +3,7 @@ console.log("✅ ThachAI Frontend hoạt động!");
 // Gọi tới backend Flask để lấy câu trả lời từ AI
 async function getResponseFromBackend(message) {
   try {
-    const response = await fetch("https://thamai-backend-clean-2.onrender.com/chat", {
+    const response = await fetch("https://thamai-backend-clean-4.onrender.com/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
