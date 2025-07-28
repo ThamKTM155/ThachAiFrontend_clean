@@ -2,11 +2,24 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>ThachAI Frontend</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ThamAI - Trợ lý ảo của bạn</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Xin chào từ ThachAI!</h1>
+  <div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Robot_icon.svg/1024px-Robot_icon.svg.png" alt="Avatar" class="avatar">
+    <h1>ThamAI</h1>
+  </div>
+
+  <div id="chat-box" class="chat-box"></div>
+
+  <div class="input-area">
+    <input type="text" id="user-input" placeholder="Nhập câu hỏi của bạn..." />
+    <button id="send-button">Gửi</button>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
+
